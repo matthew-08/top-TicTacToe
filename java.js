@@ -1,12 +1,42 @@
 const gameboard = (() =>
-{   let choice = 0
+{   winningPatterns = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+                       [0, 3 ,6], [1, 4, 7], [2, 5, 8],
+                       [0, 4, 8], [2, 4, 6]];
+
+    function checkWin() {
+        let counterX = 0
+        let counterO = 0
+        for (let i = 0; i < winningPatterns.length; i++) {
+            counterX = 0
+            counterO = 0
+            for(let j = 0; j < winningPatterns[i].length; j++){
+                let index = winningPatterns[i][j]
+                if (gameboard[index] === "X") {
+                    counterX++
+                    if (counterX === 3) {
+                        return console.log("X win");
+                    }
+                } else if (gameboard[index] === "O") {
+                    counterO++
+                    if (counterO === 3) {
+                        return console.log("O win")
+                    }
+                }
+        }
+    }
+}
+
+    let choice = 0
     const gameboard = [
         " ", " ", " ",
         " ", " ", " ",
         " ", " ", " ",
     ]
 
-return {gameboard};
+    // test code
+
+
+return {gameboard, checkWin};
 })();
 
 const boardDivs = document.querySelectorAll(".board-div");
@@ -47,7 +77,9 @@ const displayController = ((choice, player) => {
         let arrayFrom = Array.from(boardDivs)
         let boardSpot = arrayFrom.findIndex((element) => element == chosenDiv)
         gameboard.gameboard.splice(boardSpot, 1, playerSymbol)
-        updateDisplay();
+        updateDisplay()
+        gameboard.checkWin();
+
     }
     return {change};
 })();
@@ -72,3 +104,5 @@ const game = (() => {
     }
     return {getChoice}
 })();
+
+
