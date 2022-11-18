@@ -46,7 +46,7 @@ const displayController = ((choice, player) => {
     function updateboard() {
         let arrayFrom = Array.from(boardDivs)
         let boardSpot = arrayFrom.findIndex((element) => element == chosenDiv)
-        gameboard.gameboard.splice(boardSpot, 0, playerSymbol)
+        gameboard.gameboard.splice(boardSpot, 1, playerSymbol)
         updateDisplay();
     }
     return {change};
