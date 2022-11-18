@@ -1,3 +1,6 @@
+
+const boardDivs = document.querySelectorAll(".board-div");
+
 const gameboard = (() =>
 {   winningPatterns = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
                        [0, 3 ,6], [1, 4, 7], [2, 5, 8],
@@ -14,39 +17,36 @@ const gameboard = (() =>
                 if (gameboard[index] === "X") {
                     counterX++
                     if (counterX === 3) {
-                        return console.log("X win");
+                        return displayController.win("X");
                     }
                 } else if (gameboard[index] === "O") {
                     counterO++
                     if (counterO === 3) {
-                        return console.log("O win")
+                        return displayController.win("O");
                     }
                 }
         }
     }
 }
 
-    let choice = 0
     const gameboard = [
         " ", " ", " ",
         " ", " ", " ",
         " ", " ", " ",
     ]
 
-    // test code
-
-
 return {gameboard, checkWin};
 })();
 
-const boardDivs = document.querySelectorAll(".board-div");
 
 const player = (name, symbol, status) => {
-    const wins = 0
+    let wins = 0
+    let updateWins = () => wins += 1
     let playerSymbol = symbol
     let playing = status
-    return {name, playing, playerSymbol}
+    return {name, playing, playerSymbol, updateWins}
 }
+
 const playerOne = player("PlayerOne", "X", true);
 const playerTwo = player("PlayerTwo", "O", false)
 
@@ -81,7 +81,18 @@ const displayController = ((choice, player) => {
         gameboard.checkWin();
 
     }
-    return {change};
+
+    function win(symbol) {
+        if (symbol == "X") {
+            playerOne.updateWins();
+            document.querySelector(".score-p1").textContent++
+        } else if (symbol == "O") {
+            playerTwo.updateWins()
+            document.querySelector(".score-p2").textContent++
+        }
+    }
+
+    return {change, win};
 })();
 
 const game = (() => {
