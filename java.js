@@ -98,14 +98,15 @@ const displayController = ((choice, player) => {
     }
 
     function reset() {
-        console.log(gameboard.gameboard);
         for (let i = 0; i < gameboard.gameboard.length; i++) {
             gameboard.gameboard[i] = " "
         }
-        console.log(gameboard.gameboard);
+        boardDivs.forEach(e => e.classList.toggle("transitionDivs"))
         setTimeout(() => {
             updateDisplay();
-        }, 2000);
+            boardDivs.forEach(div => div.classList.remove("transitionDivs"))
+        }, 1000);
+
 
     }
     return {change, win};
