@@ -58,6 +58,10 @@ const displayController = ((choice, player) => {
     const change = (choice,player) => {
     playerSymbol = player.playerSymbol
     chosenDiv = choice;
+    console.log(chosenDiv.innerHTML)
+    if (chosenDiv.innerHTML != " "){
+        return
+    }
     if (playerOne.playing == true) {
         playerOne.playing = false
         playerTwo.playing = true
@@ -86,12 +90,21 @@ const displayController = ((choice, player) => {
         if (symbol == "X") {
             playerOne.updateWins();
             document.querySelector(".score-p1").textContent++
+            reset();
+            
         } else if (symbol == "O") {
             playerTwo.updateWins()
             document.querySelector(".score-p2").textContent++
+            reset();
         }
     }
 
+    function reset() {
+        console.log(gameboard.gameboard);
+        gameboard.gameboard.map((item) => item = "ok")
+        console.log(gameboard.gameboard);
+
+    }
     return {change, win};
 })();
 
