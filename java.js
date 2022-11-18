@@ -42,23 +42,21 @@ return {gameboard, checkWin};
 const player = (name, symbol, status) => {
     let wins = 0
     let updateWins = () => wins += 1
+    let getWins = () => {return wins}
     let playerSymbol = symbol
     let playing = status
-    return {name, playing, playerSymbol, updateWins}
+    return {name, playing, playerSymbol, updateWins, getWins}
 }
 
 const playerOne = player("PlayerOne", "X", true);
 const playerTwo = player("PlayerTwo", "O", false)
 
 const displayController = ((choice, player) => {
-
-    let playerSymbol = ""
-    let chosenDiv = ""
+  
 
     const change = (choice,player) => {
     playerSymbol = player.playerSymbol
     chosenDiv = choice;
-    console.log(chosenDiv.innerHTML)
     if (chosenDiv.innerHTML != " "){
         return
     }
@@ -101,8 +99,13 @@ const displayController = ((choice, player) => {
 
     function reset() {
         console.log(gameboard.gameboard);
-        gameboard.gameboard.map((item) => item = "ok")
+        for (let i = 0; i < gameboard.gameboard.length; i++) {
+            gameboard.gameboard[i] = " "
+        }
         console.log(gameboard.gameboard);
+        setTimeout(() => {
+            updateDisplay();
+        }, 2000);
 
     }
     return {change, win};
