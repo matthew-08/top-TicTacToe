@@ -29,6 +29,7 @@ const gameboard = (() =>
                 }
         }
     }
+
     function checkTie() {
         if (gameboard.every((piece) => piece!== " ")){
             return displayController.win("tie");
@@ -50,13 +51,14 @@ const player = (name, symbol, status) => {
     let wins = 0
     let updateWins = () => wins += 1
     let getWins = () => {return wins}
+    let reset = () => wins = 0
     let playerSymbol = symbol
     let playing = status
-    return {name, playing, playerSymbol, updateWins, getWins}
+    return {name, playing, playerSymbol, updateWins, getWins, reset}
 }
 
-const playerOne = player("PlayerOne", "X", true);
-const playerTwo = player("PlayerTwo", "O", false)
+const playerOne = player("Player One", "X", true);
+const playerTwo = player("Player Two", "O", false)
 
 const displayController = ((choice, player) => {
   
@@ -98,13 +100,20 @@ const displayController = ((choice, player) => {
         if (symbol == "X") {
             playerOne.updateWins();
             document.querySelector(".score-p1").textContent++
-            reset();
+
             
         } else if (symbol == "O") {
             playerTwo.updateWins()
             document.querySelector(".score-p2").textContent++
-            reset();
         }
+        if (playerOne.getWins() === 5) {
+            let winner = playerOne.name
+            gameover(winner);
+        } else if (playerTwo.getWins() === 5) {
+            let winner = playerTwo.name
+            gameover(winner);
+        }
+        reset();
     }
 
     function reset() {
@@ -119,6 +128,22 @@ const displayController = ((choice, player) => {
 
 
     }
+
+    function gameover(winner) {
+        document.querySelector(".reset").style.display = "flex"
+        document.querySelector(".reset h1").textContent = 
+        `${winner} is the winner!`
+        document.querySelector(".reset button").addEventListener("click", completeReset);
+    }
+
+    function completeReset() {
+        document.querySelector(".reset").style.display = "none"
+        playerOne.reset();
+        playerTwo.reset();
+        document.querySelector(".score-p1").textContent = 0
+        document.querySelector(".score-p2").textContent = 0
+    }
+
     return {change, win};
 })();
 
