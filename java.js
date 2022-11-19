@@ -6,7 +6,9 @@ const gameboard = (() =>
                        [0, 3 ,6], [1, 4, 7], [2, 5, 8],
                        [0, 4, 8], [2, 4, 6]];
 
+                       
     function checkWin() {
+        checkTie();
         let counterX = 0
         let counterO = 0
         for (let i = 0; i < winningPatterns.length; i++) {
@@ -26,6 +28,11 @@ const gameboard = (() =>
                     }
                 }
         }
+    }
+    function checkTie() {
+        if (gameboard.every((piece) => piece!== " ")){
+            return displayController.win("tie");
+        };
     }
 }
 
@@ -85,6 +92,9 @@ const displayController = ((choice, player) => {
     }
 
     function win(symbol) {
+        if (symbol == "tie") {
+            reset();
+        }
         if (symbol == "X") {
             playerOne.updateWins();
             document.querySelector(".score-p1").textContent++
